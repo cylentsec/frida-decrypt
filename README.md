@@ -52,7 +52,7 @@ pip install .
 
 ## Prerequisites
 
-### On the macOS Host
+### On the Host Machine
 
 * Python 3.8 or later
 * pipx (recommended) or pip
@@ -61,7 +61,7 @@ pip install .
 
 * Frida Server must be running.
   * Rootless: Install `frida-server` via Sileo/Zebra.
-  * Verification: Run `frida-ps -U` from your Mac to confirm connectivity.
+  * Verification: Run `frida-ps -U` from your host machine to confirm connectivity.
 
 ## Usage
 
