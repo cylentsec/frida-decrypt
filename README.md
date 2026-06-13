@@ -127,6 +127,7 @@ optional arguments:
   -l, --local-binary    Path to local encrypted binary (skip download)
   -m, --module          Specific module/dylib name to dump
   -o, --output-dir      Output directory (default: current directory)
+  -p, --pid             Attach by PID instead of process name
 ```
 
 ## How It Works
