@@ -288,10 +288,15 @@ Examples:
   
   # Decrypt a specific framework/dylib:
   %(prog)s Front -m SomeFramework
+  
+  # Attach by PID instead of process name:
+  %(prog)s Front -p 1234
 """
     )
     parser.add_argument(
-        "process", help="Name of the running process on the device (e.g. 'Instagram')"
+        "process",
+        help="Name of the running process on the device (e.g. 'Instagram'); "
+             "ignored if --pid is provided",
     )
     parser.add_argument(
         "-l", "--local-binary",
@@ -309,6 +314,12 @@ Examples:
         help="Output directory for downloaded/decrypted binaries (default: current directory)",
         default=".",
     )
+    parser.add_argument(
+        "-p", "--pid",
+        type=int,
+        help="Attach by process PID instead of name (e.g. '1234')",
+        default=None,
+    )
 
     args = parser.parse_args()
 
@@ -316,9 +327,15 @@ Examples:
     print(f"[*] Connecting to device...")
     try:
         device = frida.get_usb_device()
-        session = device.attach(args.process)
+        if args.pid is not None:
+            print(f"[*] Attaching by PID: {args.pid}")
+            session = device.attach(args.pid)
+        else:
+            print(f"[*] Attaching by name: '{args.process}'")
+            session = device.attach(args.process)
     except Exception as e:
-        print(f"[!] Error attaching to '{args.process}': {e}")
+        target = f"PID {args.pid}" if args.pid is not None else f"'{args.process}'"
+        print(f"[!] Error attaching to {target}: {e}")
         print("    Ensure the app is running in the foreground on the device.")
         sys.exit(1)
 
